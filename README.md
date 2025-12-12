@@ -1,11 +1,11 @@
-# TP3 — Sécurisation d’une application E‑Learning avec Keycloak, Angular et Spring Boot
+# TP3 — Sécurisation d’une application E‑Learning avec Keycloak, React et Spring Boot
 
 ## 1. Objectif du TP
 
 Mettre en place une authentification moderne basée sur OAuth2 / OpenID Connect pour une application E‑Learning composée de :
 - un serveur d’identité : **Keycloak** ( lancé dans un conteneur Docker)
 - un backend API : **Spring Boot**
-- un frontend SPA : **Angular**
+- un frontend SPA : **React**
 
 Rôles fonctionnels :
 - **STUDENT** : consulter les cours
@@ -14,19 +14,19 @@ Rôles fonctionnels :
 #### Étapes illustrées de l'application :
 
 1. Connexion en tant qu’administrateur  
-   ![Connexion admin](<login admin1.png>)
+   ![Connexion admin](<snapshots/login admin1.png>)
 
 2. Consultation de la liste des cours côté admin  
-   ![Liste des cours admin](<list courses admin1.png>)
+   ![Liste des cours admin](<snapshots/list courses admin1.png>)
 
 3. Ajout d’un nouveau cours par l’admin  
-   ![Ajout d’un cours](<add course.png>)
+   ![Ajout d’un cours](<snapshots/add course.png>)
 
 4. Connexion en tant qu’étudiant  
-   ![Connexion user](<login user1.png>)
+   ![Connexion user](<snapshots/login user1.png>)
 
 5. Consultation de la liste des cours côté étudiant  
-   ![Liste des cours user](<list courses user.png>)
+   ![Liste des cours user](<snapshots/list courses user.png>)
 
 
 ## 2. Schéma d’architecture 
@@ -56,9 +56,9 @@ tp3-Keycloak/
 └── snapshots/
     └── ...
 
+```
 
 ---
-
 
 ## Partie 1 — Configuration du serveur d’identité Keycloak
 
@@ -357,7 +357,7 @@ npx create-react-app elearning-frontend
 cd elearning-frontend
 npm start
 ```
-![](/npm%20start.png)
+![](</snapshots/npm start.png>)
 
 
 ### 3.2. Installation de `keycloak-js` et des dépendances
@@ -371,7 +371,7 @@ npm install keycloak-js axios react-router-dom
 - `axios` : client HTTP pour appeler le backend et l’endpoint `/userinfo`.
 - `react-router-dom` : routing côté client (pages protégées par rôle).
 
-![](/npm%20install%20keyclock.png)
+![](</snapshots/npm install keyclock.png>)
 ### 3.3. Initialisation de Keycloak au démarrage de l’app
 
 
@@ -411,35 +411,34 @@ keycloak
 - au chargement de React, l’utilisateur est redirigé vers Keycloak pour se connecter,
 - après login, il est renvoyé vers `http://localhost:3000`.
 
-![alt text](login2.png)
+![alt text](snapshots/login2.png)
 
 ### 3.4. Récupération des informations utilisateur (`/userinfo`) et des rôles (`/me`)
 
 
-![alt text](serviceAuth.png)
+![alt text](snapshots/serviceAuth.png)
 
 ### 3.5. Protection de l’interface React par rôle
 
 - créer deux composants React :
   - `CoursesPage` (liste des cours),
   
-  ![alt text](coursesPage.png)
+  ![alt text](snapshots/coursesPage.png)
   - `AdminCoursesPage` (gestion / ajout de cours),
 
-  ![alt text](adminCoursePage.png)
+  ![alt text](snapshots/adminCoursePage.png)
 - configurer le routing avec `react-router-dom` :
   - `/courses` → `CoursesPage`,
   - `/admin/courses` → `AdminCoursesPage`.
 
-![alt text](image.png)
+![alt text](snapshots/navigation.png)
 
 Créer un composant `ProtectedRoute` qui vérifie les rôles   :
 
-![alt text](protectedRoute.png)
+![alt text](snapshots/protectedRoute.png)
 
 ### 3.6. Affichage du profil et bouton Logout
 
-![alt text](userinfo+logout.png)
 
 - afficher le prénom, nom, email à partir de `getUserInfo()` ou directement depuis `keycloak.tokenParsed`,
 - le bouton **Logout**  appelle :
@@ -449,6 +448,9 @@ keycloak.logout({ redirectUri: window.location.origin });
 ```
 
 Cela redirige vers Keycloak pour la déconnexion puis renvoie vers l’application React.
+
+![alt text](snapshots/userinfo+logout.png)
+
 
 ---
 
